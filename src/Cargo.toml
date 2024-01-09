@@ -1,2 +1,12 @@
+[package]
+name = "myapp"
+version = "0.1.0"
+repository = "https://github.com/Gagrio/myapp"
+edition = "2021"
+
 [dependencies]
 actix-web = "4.0.0"
+
+[[bin]]
+name = "myapp"
+path = "main.rs"
