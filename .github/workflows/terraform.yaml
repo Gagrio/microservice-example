@@ -1,0 +1,58 @@
+name: Terraform
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'  # Specify the path to your Terraform files
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Format Terraform code
+        run: terraform fmt -check
+
+  validate:
+    runs-on: ubuntu-latest
+    needs: format
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform init
+        run: terraform init
+
+      - name: Terraform plan
+        run: terraform plan -input=false -out=tfplan
+
+  apply:
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform apply
+        run: terraform apply -input=false tfplan
+        env:
+          TF_VAR_project_id: ${{ secrets.GCP_PROJECT_ID }}
+          TF_VAR_credentials: ${{ secrets.GCP_CREDENTIALS }}
+
+#
+#Ensure that you replace ${{ secrets.GCP_PROJECT_ID }} and ${{ secrets.GCP_CREDENTIALS }} with the appropriate secret names for your Google Cloud Project ID and service account credentials.
+#Ensure that you have the necessary secrets set up in your GitHub repository for authenticating with Google Cloud Platform.
+#
