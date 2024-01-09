@@ -8,7 +8,7 @@ WORKDIR /usr/src/myapp
 COPY /src .
 
 # Build the Rust application
-RUN cargo build --release
+RUN cargo install --path .
 
 # Create a new lightweight image for running the application
 FROM debian:buster-slim
