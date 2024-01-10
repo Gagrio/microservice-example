@@ -1,1 +1,5 @@
-
+# Chart.yaml
+apiVersion: v2
+name: myapp
+description: A Helm chart for deploying a Rust microservice
+version: 0.1.0
