@@ -2,9 +2,6 @@ name: Build and Push Docker Image
 
 on:
   push:
-    paths:
-      - 'DOCKERFILE'
-      - 'src/**'
 
 jobs:
   build-and-push:
@@ -22,7 +19,7 @@ jobs:
         
     - name: Build Docker Image
       run: |
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest -f DOCKERFILE ./src
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
 
     - name: Push Docker Image
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/myapp:latest
