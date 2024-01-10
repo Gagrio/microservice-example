@@ -14,10 +14,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up kubectl
-        uses: azure/kubernetes-set-context@v1
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+        run: |
+          mkdir ${HOME}/.kube
+          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+          cat ${HOME}/.kube/config
+        #uses: azure/kubernetes-set-context@v1
+        #with:
+        #  method: kubeconfig
+        #  kubeconfig: ${{ secrets.KUBE_CONFIG }}
 
       - name: Install Helm
         run: |
